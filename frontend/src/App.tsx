@@ -1,13 +1,17 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./css/App.css";
-import InitialPage from "./components/InitialPage";
+import { Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Callback from "./pages/Callback";
 
 function App() {
   return (
-    <div className="App">
-      <InitialPage />
-    </div>
+    <>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/callback" element={<Callback />} />
+      </Routes>
+    </>
   );
 }
 
