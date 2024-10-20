@@ -20,7 +20,6 @@ const Callback = () => {
         window.localStorage.setItem("token", tokenFromLocalStorage);
       }
     }
-    window.location.pathname = "";
     setToken(tokenFromLocalStorage);
   }, [token]);
 

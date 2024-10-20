@@ -24,6 +24,7 @@ const Home = () => {
     `&redirect_uri=${redirect_uri}` +
     `&state=${state}` +
     `&response_type=${response_type}`;
+  console.log(`Redirect url ${redirect_uri}`);
   return (
     <div className="App">
       <div className="main-container">
