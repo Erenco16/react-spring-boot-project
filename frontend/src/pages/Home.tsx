@@ -16,14 +16,16 @@ const Home = () => {
 
   const auth_endpoint = "https://accounts.spotify.com/authorize";
   const state: string = generateRandomString(16);
-  const scope: string = "user-read-private user-read-email";
+  const scope: string = "user-read-private user-read-email user-top-read";
   const response_type = "token";
   const spotifyAuthUrl =
     `${auth_endpoint}?` +
     `&client_id=${client_id}` +
     `&redirect_uri=${redirect_uri}` +
     `&state=${state}` +
-    `&response_type=${response_type}`;
+    `&response_type=${response_type}` +
+    `&scope=${scope}`;
+  console.log(`Redirect url ${redirect_uri}`);
   return (
     <div className="App">
       <div className="main-container">
