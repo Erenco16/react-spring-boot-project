@@ -2,7 +2,7 @@
 # https://github.com/firebase/firebase-tools
 
 name: Deploy to Firebase Hosting on merge
-on:  # Fixed the syntax by removing quotes around "on"
+on: 
   push:
     branches:
       - main
@@ -29,5 +29,4 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_MUSIC_RECOMMENDATION_D380D }}'
           channelId: live
           projectId: music-recommendation-d380d
-        # Specify the working directory for deployment if needed, e.g.,:
-        # working-directory: ./frontend
+          entryPoint: ./frontend
