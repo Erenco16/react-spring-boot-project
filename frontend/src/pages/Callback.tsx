@@ -66,6 +66,7 @@ const Callback = () => {
       });
   }, []);
 
+
   const handleLogOut = () => {
     setToken("");
     window.localStorage.removeItem("token");
