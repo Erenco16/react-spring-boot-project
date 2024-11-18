@@ -42,7 +42,7 @@ public class ArtistResource {
     // Endpoint to delete a artist by ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> deleteUserById(@PathVariable String id) {
-        boolean isDeleted = repo.deleteUserById(id);
+        boolean isDeleted = repo.deleteArtistById(id);
         if (!isDeleted) {
             return ResponseEntity.notFound().build();
         }

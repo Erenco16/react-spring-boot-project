@@ -78,15 +78,16 @@ public class UserArtistJDBCRepository {
     // Delete Methods
     public boolean deleteUserById(String userId) {
         String query = "DELETE FROM USERS WHERE user_id = ?";
-        jdbcTemplate.update(query, userId);
-        return jdbcTemplate.update(query, userId) > 0;
+        int rowsAffected = jdbcTemplate.update(query, userId);
+        return rowsAffected > 0;
     }
 
     public boolean deleteArtistById(String artistId) {
         String query = "DELETE FROM ARTISTS WHERE artist_id = ?";
-        jdbcTemplate.update(query, artistId);
-        return jdbcTemplate.update(query, artistId) > 0;
+        int rowsAffected = jdbcTemplate.update(query, artistId);
+        return rowsAffected > 0;
     }
+
 
     public boolean deleteUserArtists(String userId) {
         String query = "DELETE FROM USER_ARTISTS WHERE user_id = ?";
