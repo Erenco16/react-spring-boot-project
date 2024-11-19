@@ -53,6 +53,17 @@ public class UserResource {
         return ResponseEntity.created(location).build();
     }
 
+    // Endpoint to delete all the users
+    @DeleteMapping("")
+    public ResponseEntity<Boolean> deleteAllUsers() {
+        boolean isDeleted = repo.deleteAllUsers();
+        if (!isDeleted) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.noContent().build();
+    }
+
+
     // Endpoint to delete a user by ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> deleteUserById(@PathVariable String id) {
@@ -60,7 +71,7 @@ public class UserResource {
         if (!isDeleted) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(true);
+        return ResponseEntity.noContent().build();
     }
 
     // Endpoint to update a user by ID

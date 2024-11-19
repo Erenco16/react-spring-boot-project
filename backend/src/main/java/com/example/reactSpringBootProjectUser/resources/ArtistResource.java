@@ -23,7 +23,7 @@ public class ArtistResource {
         this.repo = repo;
     }
 
-    // Endpoint to get all the artists
+    // Endpoint to get all artists
     @GetMapping("/")
     public List<Artist> getAllArtists() {
         return repo.getAllArtists();
@@ -32,28 +32,18 @@ public class ArtistResource {
     // Endpoint to get an artist by ID
     @GetMapping("/{id}")
     public ResponseEntity<Artist> getArtist(@PathVariable String id) {
-    Optional<Artist> artist = Optional.ofNullable(repo.getArtistByID(id));
+        Optional<Artist> artist = Optional.ofNullable(repo.getArtistByID(id));
         if (artist.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(artist.get());
     }
 
-    // Endpoint to delete a artist by ID
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> deleteUserById(@PathVariable String id) {
-        boolean isDeleted = repo.deleteArtistById(id);
-        if (!isDeleted) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(true);
-    }
-
     // Endpoint to add a new artist
     @PostMapping("/")
     public ResponseEntity<String> addArtist(@RequestBody Artist artist) {
         try {
-            repo.insertArtist(artist); // Calls the repository method to add the artist
+            repo.insertArtist(artist);
             URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                     .path("/{id}")
                     .buildAndExpand(artist.getId())
@@ -64,4 +54,39 @@ public class ArtistResource {
         }
     }
 
+    // Endpoint to delete an artist by ID
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Boolean> deleteArtistById(@PathVariable String id) {
+        boolean isDeleted = repo.deleteArtistById(id);
+        if (!isDeleted) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.noContent().build();
+    }
+
+    // Endpoint to delete all artists
+    @DeleteMapping("")
+    public ResponseEntity<Boolean> deleteAllArtists() {
+        boolean isDeleted = repo.deleteAllArtists();
+        if (!isDeleted) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.noContent().build();
+    }
+
+    // Endpoint to update an artist by ID
+    @PutMapping("/{id}")
+    public ResponseEntity<Artist> updateArtist(@PathVariable String id, @RequestBody Artist updatedArtist) {
+        Optional<Artist> existingArtist = Optional.ofNullable(repo.getArtistByID(id));
+        if (existingArtist.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Artist artist = existingArtist.get();
+        artist.setName(updatedArtist.getName());
+
+        repo.updateArtist(artist);
+
+        return ResponseEntity.ok(artist);
+    }
 }

@@ -111,4 +111,15 @@ public class UserArtistJDBCRepository {
         jdbcTemplate.update(query, newRank, userId, artistId);
     }
 
+    public boolean deleteAllUsers() {
+            String query = "DELETE FROM USERS";
+            int rowsAffected = jdbcTemplate.update(query);
+            return rowsAffected > 0;
+    }
+
+    public boolean deleteAllArtists() {
+        String query = "DELETE FROM ARTISTS";
+        int rowsAffected = jdbcTemplate.update(query);
+        return rowsAffected > 0;
+    }
 }
