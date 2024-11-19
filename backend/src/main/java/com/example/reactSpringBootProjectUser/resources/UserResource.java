@@ -54,7 +54,7 @@ public class UserResource {
     }
 
     // Endpoint to delete all the users
-    @DeleteMapping("")
+    @DeleteMapping("/")
     public ResponseEntity<Boolean> deleteAllUsers() {
         boolean isDeleted = repo.deleteAllUsers();
         if (!isDeleted) {

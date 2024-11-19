@@ -65,7 +65,7 @@ public class ArtistResource {
     }
 
     // Endpoint to delete all artists
-    @DeleteMapping("")
+    @DeleteMapping("/")
     public ResponseEntity<Boolean> deleteAllArtists() {
         boolean isDeleted = repo.deleteAllArtists();
         if (!isDeleted) {
