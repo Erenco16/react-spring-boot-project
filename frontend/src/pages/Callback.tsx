@@ -34,8 +34,11 @@ const Callback = () => {
         const tokenFromLocalStorage = window.localStorage.getItem("token");
 
         if (tokenFromLocalStorage) {
+            const headers = {'Content-Type': 'text/plain',
+                'Access-Control-Allow-Origin': '*'};
             axios
-                .post("http://localhost:8080/api/spotify/data", { token: tokenFromLocalStorage })
+                .post("http://localhost:8080/api/spotify/data", { token: tokenFromLocalStorage }
+                    )
                 .then((res) => {
                     setUserData(res.data.userData);
                     setUserTopItemsData(res.data.userTopItemsData);
