@@ -1,13 +1,25 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { UserData } from "../interfaces/UserData";
-import { UserTopItemsData } from "../interfaces/UserTopItems";
+import { ArtistResponse } from "../interfaces/Artist";
 import LoadingPage from "./LoadingPage";
+
+const enterArtistsIntoDb = () => {
+    axios
+        .post("http://localhost:8080/api/artists/"
+        )
+        .then((res) => {
+            console.log(res.data);
+        })
+        .catch((error) => {
+            console.error("Error fetching data from the backend: ", error);
+        });
+}
 
 const Callback = () => {
   const [token, setToken] = useState("");
   const [userData, setUserData] = useState<UserData | null>(null);
-  const [userTopItemsData, setUserTopItemsData] = useState<UserTopItemsData | null>(null);
+  const [artists, setArtists] = useState<ArtistResponse | null>(null);
 
   // get the access token
   useEffect(() => {
@@ -40,8 +52,9 @@ const Callback = () => {
                 .post("http://localhost:8080/api/spotify/data", { token: tokenFromLocalStorage }
                     )
                 .then((res) => {
+                    console.log(res.data.userTopItemsData.items);
                     setUserData(res.data.userData);
-                    setUserTopItemsData(res.data.userTopItemsData);
+                    setArtists(res.data.userTopItemsData);
                 })
                 .catch((error) => {
                     console.error("Error fetching data from the backend: ", error);
@@ -55,11 +68,11 @@ const Callback = () => {
     window.location.href = "/";
   };
 
-  if (!userData || !userTopItemsData) {
+  if (!userData || !artists) {
     return <LoadingPage/>;
   }
 
-  return (
+    return (
       <div className="App">
         <h1>This is the callback page.</h1>
         <button className="spotify-btn" onClick={handleLogOut}>
@@ -77,19 +90,18 @@ const Callback = () => {
         <table>
           <thead>
           <tr>
-            <th>Top Artist Name</th>
-            <th>Popularity</th>
-            <th>Genres</th>
+            <th>Artist ID</th>
+            <th>Artist Name</th>
           </tr>
           </thead>
           <tbody>
-          {userTopItemsData.items.map((artist, index) => (
-              <tr key={index}>
-                <td>{artist.name}</td>
-                <td>{artist.popularity}</td>
-                <td>{artist.genres.join(", ")}</td>
+          {artists.items.map((artist, index) => (
+              <tr key={artist.id || index}>
+                  <td>{artist.id}</td>
+                  <td>{artist.name}</td>
               </tr>
           ))}
+
           </tbody>
         </table>
       </div>
