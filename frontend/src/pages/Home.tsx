@@ -8,6 +8,10 @@ const Home = () => {
     }
     return text;
   };
+
+  // delete the access token if exists
+  window.localStorage.setItem("token", "");
+
   // logging the redirect uri into the console to make sure the url is correct
   // env variables for auth
   const client_id: string = process.env.REACT_APP_SPOTIFY_CLIENT_ID as string;

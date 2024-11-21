@@ -3,10 +3,39 @@ import axios from "axios";
 import { UserData } from "../interfaces/UserData";
 import { ArtistResponse } from "../interfaces/Artist";
 import LoadingPage from "./LoadingPage";
+import Header from '../components/Header'
 
-const enterArtistsIntoDb = () => {
+
+// adding artist
+const handleAddArtist = () => {
     axios
         .post("http://localhost:8080/api/artists/"
+        )
+        .then((res) => {
+            console.log(res.data);
+        })
+        .catch((error) => {
+            console.error("Error fetching data from the backend: ", error);
+        });
+}
+
+// updating artist
+const handleUpdateArtist = () => {
+    axios
+        .put("http://localhost:8080/api/artists/"
+        )
+        .then((res) => {
+            console.log(res.data);
+        })
+        .catch((error) => {
+            console.error("Error fetching data from the backend: ", error);
+        });
+}
+
+// delete artist
+const handleDeleteArtist = () => {
+    axios
+        .delete("http://localhost:8080/api/artists/"
         )
         .then((res) => {
             console.log(res.data);
@@ -20,6 +49,9 @@ const Callback = () => {
   const [token, setToken] = useState("");
   const [userData, setUserData] = useState<UserData | null>(null);
   const [artists, setArtists] = useState<ArtistResponse | null>(null);
+  const [artistName, setArtistName] = useState("");
+
+
 
   // get the access token
   useEffect(() => {
@@ -46,10 +78,8 @@ const Callback = () => {
         const tokenFromLocalStorage = window.localStorage.getItem("token");
 
         if (tokenFromLocalStorage) {
-            const headers = {'Content-Type': 'text/plain',
-                'Access-Control-Allow-Origin': '*'};
             axios
-                .post("http://localhost:8080/api/spotify/data", { token: tokenFromLocalStorage }
+                .post("http://localhost:8080/api/spotify/data/",{ token: tokenFromLocalStorage }
                     )
                 .then((res) => {
                     console.log(res.data.userTopItemsData.items);
@@ -63,49 +93,44 @@ const Callback = () => {
     }, []);
 
 
-    const handleLogOut = () => {
-    window.localStorage.removeItem("token");
-    window.location.href = "/";
-  };
-
   if (!userData || !artists) {
     return <LoadingPage/>;
   }
-
     return (
       <div className="App">
-        <h1>This is the callback page.</h1>
-        <button className="spotify-btn" onClick={handleLogOut}>
-          Log out from Spotify
-        </button>
+        <Header userData={userData}/>
+          <div className="user-details">
+              <div className="artist-actions">
+                  <input
+                      type="text"
+                      placeholder="Enter Artist Name"
+                      value={artistName}
+                      onChange={(e) => setArtistName(e.target.value)}
+                  />
+                  <button className="action-btn" onClick={handleAddArtist}>Add</button>
+                  <button className="action-btn" onClick={handleUpdateArtist}>Update</button>
+                  <button className="action-btn delete-btn" onClick={handleDeleteArtist}>Delete</button>
+              </div>
+              <table>
+                  <thead>
+                  <tr>
+                      <th>Artist ID</th>
+                      <th>Artist Name</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {artists.items.map((artist, index) => (
+                      <tr>
+                          <td>{artist.id}</td>
+                          <td>{artist.name}</td>
+                      </tr>
+                  ))}
 
-        <h1>Welcome, {userData.display_name}!</h1>
-        <p>Spotify Profile:
-          <a href={userData.external_urls.spotify} target="_blank" rel="noopener noreferrer">
-            Visit Profile
-          </a>
-        </p>
-        <p>Followers: {userData.followers.total}</p>
-
-        <table>
-          <thead>
-          <tr>
-            <th>Artist ID</th>
-            <th>Artist Name</th>
-          </tr>
-          </thead>
-          <tbody>
-          {artists.items.map((artist, index) => (
-              <tr key={artist.id || index}>
-                  <td>{artist.id}</td>
-                  <td>{artist.name}</td>
-              </tr>
-          ))}
-
-          </tbody>
-        </table>
+                  </tbody>
+              </table>
+          </div>
       </div>
-  );
+    );
 };
 
 export default Callback;
