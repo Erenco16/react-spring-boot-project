@@ -33,9 +33,9 @@ const Home = () => {
   return (
     <div className="App">
       <div className="main-container">
-        <h1>Display your playlists!</h1>
+        <h1>Display your artists!</h1>
         <h2>
-          In order to see your playlists, you need to click the button below.
+          In order to see your artists, you need to click the button below.
         </h2>
         <a href={spotifyAuthUrl}>
           <button className="spotify-btn">Log into Spotify</button>

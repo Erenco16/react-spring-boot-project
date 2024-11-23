@@ -6,10 +6,26 @@ import LoadingPage from "./LoadingPage";
 import Header from '../components/Header'
 
 
+// make sure the access token is not visible in the url
+const cleanUrl = () => {
+    const currentUrl = window.location.href;
+    if (currentUrl.includes('#')) {
+        // Remove everything after the '#' symbol
+        window.history.replaceState(
+            null,
+            document.title,
+            currentUrl.split('#')[0] // Keep only the base URL
+        );
+    }
+};
+
 // adding artist
 const handleAddArtist = () => {
     axios
-        .post("http://localhost:8080/api/artists/"
+        .post("http://localhost:8080/api/artists/", {},
+            {headers: {
+                "Access-Control-Allow-Origin": "*"
+                }}
         )
         .then((res) => {
             console.log(res.data);
@@ -70,7 +86,7 @@ const Callback = () => {
       }
     }
     setToken(tokenFromLocalStorage);
-    console.log(`Token: ${token}`);
+    cleanUrl()
   }, [token]);
 
   // send request to the spring boot endpoint
