@@ -8,6 +8,10 @@ const Home = () => {
     }
     return text;
   };
+
+  // delete the access token if exists
+  window.localStorage.setItem("token", "");
+
   // logging the redirect uri into the console to make sure the url is correct
   // env variables for auth
   const client_id: string = process.env.REACT_APP_SPOTIFY_CLIENT_ID as string;
@@ -29,9 +33,9 @@ const Home = () => {
   return (
     <div className="App">
       <div className="main-container">
-        <h1>Display your playlists!</h1>
+        <h1>Display your artists!</h1>
         <h2>
-          In order to see your playlists, you need to click the button below.
+          In order to see your artists, you need to click the button below.
         </h2>
         <a href={spotifyAuthUrl}>
           <button className="spotify-btn">Log into Spotify</button>
